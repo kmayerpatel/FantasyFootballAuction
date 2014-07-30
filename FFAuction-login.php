@@ -59,6 +59,14 @@ session_start();
       </div>
     </div> 
   </div>
+
+  <h2>Do you want commissioner interface?</h2>
+    <div class="form-group">
+      <label>Yes
+        <input type="radio" name="commish" value="yes"></label><br>
+      <label>No
+        <input type="radio" name="commish" value="no"></label><br>
+    </div>  
 </div>
 </body> 
 </html>
