@@ -71,5 +71,10 @@ session_start();
         <input type="radio" name="commish" value="no"></label><br>
     </div>  
 </div>
+
+<div class="row">
+<div class="col-md-offset-2 col-md-8">
+  <button type="submit" class="btn btn-default">Go To Auction</button>
+</form>
 </body> 
 </html>
