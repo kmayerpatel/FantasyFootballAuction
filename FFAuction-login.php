@@ -21,7 +21,7 @@ session_start();
   
 <div class="row">
 
-<div class="col-md-offset-3 col-md-4">
+<div class="col-md-offset-2 col-md-8">
     <h2>Who the hell are you?</h2>
 
       <div class="form-group">
