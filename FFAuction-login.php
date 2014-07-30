@@ -25,6 +25,8 @@ session_start();
     <h2>Who the hell are you?</h2>
 
       <div class="form-group">
+        <div class="row">
+          <div class="col-md-4">
         <label>Ketan
         <input type="radio" name="name" value="Ketan"></label><br>
         <label>Jamo
@@ -33,6 +35,8 @@ session_start();
         <input type="radio" name="name" value="Forbes"></label><br>
         <label>CG
         <input type="radio" name="name" value="CG"></label><br>
+      </div>
+      <div class="col-md-4">
         <label>Z
         <input type="radio" name="name" value="Z"></label><br>
         <label>Elder
@@ -41,6 +45,8 @@ session_start();
         <input type="radio" name="name" value="Los"></label><br>
         <label>Singer
         <input type="radio" name="name" value="Singer"></label><br>
+      </div>
+      <div class="col-md-4">
         <label>Vince
         <input type="radio" name="name" value="Vince"></label><br>
         <label>O'Malley
@@ -49,6 +55,7 @@ session_start();
         <input type="radio" name="name" value="Rich"></label><br>
         <label>Terrence
         <input type="radio" name="name" value="Terrence"></label><br>
+      </div>
       </div>
     </div> 
   </div>
