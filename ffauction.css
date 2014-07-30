@@ -1,0 +1,14 @@
+.roster {
+    border: thin solid black;
+}
+
+.bid-btn {
+    width: 90px;
+}
+
+#bid-history-div {
+    height: 200px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+    border: thin solid black;
+}
