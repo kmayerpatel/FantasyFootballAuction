@@ -27,7 +27,7 @@ session_start();
         <div class="row">
           <div class="col-md-4">
         <label>Ketan
-        <input type="radio" name="name" value="Ketan" selected></label><br>
+        <input type="radio" name="name" value="Ketan" checked></label><br>
         <label>Jamo
         <input type="radio" name="name" value="Jamo"></label><br>
         <label>Forbes
@@ -66,7 +66,7 @@ session_start();
   <h2>Do you want commissioner interface?</h2>
     <div class="form-group">
       <label>Yes
-        <input type="radio" name="commish" value="yes" selected></label><br>
+        <input type="radio" name="commish" value="yes" checked></label><br>
       <label>No
         <input type="radio" name="commish" value="no"></label><br>
     </div>  
