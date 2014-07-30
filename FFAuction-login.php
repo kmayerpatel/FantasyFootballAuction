@@ -20,7 +20,6 @@ session_start();
 <div class="container">
   
 <div class="row">
-
 <div class="col-md-offset-2 col-md-8">
     <h2>Who the hell are you?</h2>
 
@@ -59,6 +58,10 @@ session_start();
       </div>
     </div> 
   </div>
+</div>
+
+<div class="row">
+<div class="col-md-offset-2 col-md-8">
 
   <h2>Do you want commissioner interface?</h2>
     <div class="form-group">
