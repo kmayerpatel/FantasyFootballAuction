@@ -75,6 +75,8 @@ session_start();
 <div class="row">
 <div class="col-md-offset-2 col-md-8">
   <button type="submit" class="btn btn-default">Go To Auction</button>
+</div>
+</div>
 </form>
 </body> 
 </html>
