@@ -16,6 +16,7 @@ session_start();
 
 <body>
 <form role="form" action="FFAuction.php" method="post">
+  <input type="submit" name="submit">
 
 <div class="container">
   
