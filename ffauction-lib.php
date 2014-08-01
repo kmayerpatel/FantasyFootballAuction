@@ -11,8 +11,9 @@ function owners() {
 
 function load_auction_state() {
 
-	if (file_exists(state_file_location())) {
-		return json_decode(file_get_contents($auction_state_file), true);
+	$filename = state_file_location();
+	if (file_exists($filename) {
+		return json_decode(file_get_contents($filename), true);
 	} else {
 		return null;
 	}
