@@ -12,7 +12,7 @@ function owners() {
 function load_auction_state() {
 
 	$filename = state_file_location();
-	if (file_exists($filename) {
+	if (file_exists($filename)) {
 		return json_decode(file_get_contents($filename), true);
 	} else {
 		return null;
