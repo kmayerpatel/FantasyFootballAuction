@@ -19,7 +19,7 @@ class AuctionState {
 			$auction_state['transactions'] = array();
 			$auction_state['init_time'] = time();
 
-			$this->data = $auction_state;
+			$this->$data = $auction_state;
 		} else {
 			$this->$data = $from_json;
 		}
