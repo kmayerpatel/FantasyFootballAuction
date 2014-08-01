@@ -34,7 +34,8 @@ class AuctionState {
 	}
 
 	function nextToNominate() {
-		return ((owners())[$this->$data['next_to_pick']]);
+		$owners = owners();
+		return ($owners[$this->$data['next_to_pick']]);
 	}
 
 	function start_auction($nominator, $nomination) {
