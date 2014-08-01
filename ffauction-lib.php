@@ -1,7 +1,7 @@
 <?php
 
 class AuctionState {
-	private $data = array();
+	public $data = array();
 
 	function __construct($from_json) {
 		if ($from_json == null) {
