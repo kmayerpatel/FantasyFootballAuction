@@ -1,6 +1,8 @@
 <?php
 require_once 'ffauction-lib.php';
 
+error_log("In reset auction");
+
 $auction_state = load_auction_state();
 if ($auction_state != null) {
 	$backup_dir = 'backups';
