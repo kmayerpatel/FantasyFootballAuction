@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_REQUEST('nominator') ||
+if (!isset($_REQUEST('nominator')) ||
 	!isset($_REQUEST('name')) ||
 	!isset($_REQUEST('position')) ||
 	!isset($_REQUEST('team'))) {
