@@ -1,7 +1,7 @@
 <?php
 require_once 'ffauction-lib.php';
 
-error_log("In reset auction");
+error_log("KMP: In reset auction");
 
 $auction_state = load_auction_state();
 if ($auction_state != null) {
@@ -11,7 +11,11 @@ if ($auction_state != null) {
 	file_put_contents($backup_dir.'/last.txt', $auction_state_json);
 }
 
+error_log("KMP: before creating new state");
+
 $auction_state = new AuctionState(null);
+
+error_log("KMP: after creating new state");
 
 header('Content-type: text/plain');
 if (!$auction_state->save()) {
