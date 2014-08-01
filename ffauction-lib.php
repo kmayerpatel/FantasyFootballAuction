@@ -94,7 +94,7 @@ class AuctionState {
 	function bid($bidder, $bid, $timestamp) {
 		if ((!$this->inAuction()) ||
 			($this->auctionTimestamp() != $timestamp) ||
-			($bid < $this->highestBid())) {
+			($bid <= $this->highestBid())) {
 			header('HTTP/1.1 403 Forbidden');
 			exit();
 		}
