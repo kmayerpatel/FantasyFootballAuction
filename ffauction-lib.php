@@ -59,6 +59,10 @@ class AuctionState {
 		return $current_version;
 	}
 
+	function timestamp() {
+		return $this->data['init_time'];
+	}
+	
 	function save() {
 		if (file_put_contents(state_file_location(), $this->asJSON()) === false) {
 			return false;
