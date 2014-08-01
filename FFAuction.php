@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_POST['name']) ||
@@ -17,4 +16,3 @@ if ($_POST['commish'] == 'yes') {
 	print("No");
 /*	include 'FFAuctionCommish.php'; */
 }
-*/
