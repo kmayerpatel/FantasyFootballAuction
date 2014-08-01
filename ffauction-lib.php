@@ -78,7 +78,7 @@ class AuctionState {
 	}
 
 	function auctionTimestamp() {
-		if (!this->inAuction()) {
+		if (!$this->inAuction()) {
 			return null;
 		}
 		return $this->data['current_auction']['timestamp'];
