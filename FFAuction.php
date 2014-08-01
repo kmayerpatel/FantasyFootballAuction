@@ -13,6 +13,6 @@ if ($_POST['commish'] == 'yes') {
 /*	print("Yes"); */
 	include 'FFAuctionCommish.php';
 } else {
-	print("No");
+/*	print("No"); */
 	include 'FFAuctionCommish.php';
 }
