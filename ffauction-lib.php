@@ -41,7 +41,7 @@ class AuctionState {
 	function start_auction($nominator, $nomination) {
 		if (($this->inAuction()) ||
 			(($nominator != "commish") && 
-				($this->nextToNominate() != $nominator)) {
+				($this->nextToNominate() != $nominator))) {
 				header('HTTP/1.1 403 Forbidden');
 				exit();
 			}
