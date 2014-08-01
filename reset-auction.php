@@ -1,23 +1,17 @@
 <?php
-session_start();
-
 $auction_state_file = 'auction_state.txt';
 
 /* Save old auction state in back up directory */
 
+
 if (file_exists($auction_state_file)) {
 	$backup_dir = 'backups';
-	$time = time();
 	$auction_state = file_get_contents($auction_state_file);
-	file_put_contents($backup_dir.'/'.$time.'.txt', $auction_state);
+	file_put_contents($backup_dir.'/'.$auction_state['init_time'].'.txt', $auction_state);
 	file_put_contents($backup_dir.'/last.txt', $auction_state);
 }
 
-$_SESSION['pick_idx'] = 0;
-$_SESSION['last_version'] = 0;
-
 require_once 'Owners.php';
-require_once 'Teams.php';
 
 $auction_state = array();
 
@@ -28,8 +22,10 @@ foreach ($owners as $owner_name) {
 }
 $auction_state['cap'] = 100;
 $auction_state['current_auction'] = null;
-$auction_state['next_to_pick'] = $owners[0];
-$auction_state['version'] = $_SESSION['last_version'];
+$auction_state['next_to_pick'] = 0;
+$auction_state['version'] = 0;
+$auction_state['transactions'] = array();
+$auction_state['init_time'] = time();
 
 $auction_state_json = json_encode($auction_state);
 
