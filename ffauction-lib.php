@@ -1,7 +1,7 @@
 <?php
 
 class AuctionState {
-	public $data = array();
+	private $data = array();
 
 	function __construct($from_json) {
 		if ($from_json == null) {
@@ -19,23 +19,23 @@ class AuctionState {
 			$auction_state['transactions'] = array();
 			$auction_state['init_time'] = time();
 
-			$this->$data = $auction_state;
+			$this->data = $auction_state;
 		} else {
-			$this->$data = $from_json;
+			$this->data = $from_json;
 		}
 	}
 
 	function asJSON() {
-		return json_encode($this->$data);
+		return json_encode($this->data);
 	}
 
 	function inAuction() {
-		return ($this->$data['current_auction'] != null);
+		return ($this->data['current_auction'] != null);
 	}
 
 	function nextToNominate() {
 		$owners = owners();
-		return ($owners[$this->$data['next_to_pick']]);
+		return ($owners[$this->data['next_to_pick']]);
 	}
 
 	function start_auction($nominator, $nomination) {
@@ -44,7 +44,7 @@ class AuctionState {
 			exit();
 		}
 
-		$this->$data['current_auction'] = array('nominator' => $nominator,
+		$this->data['current_auction'] = array('nominator' => $nominator,
 			'nomination' => $nomination,
 			'bids' => array());
 
@@ -54,8 +54,8 @@ class AuctionState {
 	}
 
 	function advance_version() {
-		$current_version = $this->$data['version'];
-		$this->$data['version'] += 1;
+		$current_version = $this->data['version'];
+		$this->data['version'] += 1;
 		return $current_version;
 	}
 
