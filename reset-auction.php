@@ -9,8 +9,8 @@ if (file_exists($auction_state_file)) {
 	$backup_dir = 'backups';
 	$time = time();
 	$auction_state = file_get_contents($auction_state_file);
-	file_put_contents('backups/'.$time.'.txt', $auction_state);
-	file_put_contents('bakcups/last.txt', $auction_state);
+	file_put_contents($backup_dir.'/'.$time.'.txt', $auction_state);
+	file_put_contents($backup_dir.'/last.txt', $auction_state);
 }
 
 $_SESSION['pick_idx'] = 0;
