@@ -10,9 +10,9 @@ if (!isset($_POST['name']) ||
 
 $_SESSION['name'] = $_POST['name'];
 if ($_POST['commish'] == 'yes') {
-	print("Yes");
-/*	include 'FFAuctionCommish.php'; */
+/*	print("Yes"); */
+	include 'FFAuctionCommish.php';
 } else {
 	print("No");
-/*	include 'FFAuctionCommish.php'; */
+	include 'FFAuctionCommish.php';
 }
