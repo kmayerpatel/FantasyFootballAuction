@@ -1,6 +1,4 @@
-<?php
-session_start();
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -16,13 +14,11 @@ session_start();
 
 <body>
 <form role="form" action="FFAuction.php" method="post">
-  <input type="submit" name="submit">
-
 <div class="container">
   
 <div class="row">
 <div class="col-md-offset-2 col-md-8">
-    <h2>Who the hell are you?</h2>
+    <h2>Identity?</h2>
 
       <div class="form-group">
         <div class="row">
@@ -64,7 +60,7 @@ session_start();
 <div class="row">
 <div class="col-md-offset-2 col-md-8">
 
-  <h2>Do you want commissioner interface?</h2>
+  <h2>Commish?</h2>
     <div class="form-group">
       <label>Yes
         <input type="radio" name="commish" value="yes" checked></label><br>
