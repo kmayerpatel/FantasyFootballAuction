@@ -21,9 +21,9 @@ $auction_state_json = json_encode($auction_state);
 
 header('Content-type: text/plain');
 if (file_put_contents('auction_state.txt', $auction_state_json) === false) {
-	print("File put contents fails.\n");
+	print("File put contents fails.");
 } else {
-	print("Auction reset. Init JSON as follows:\n");
+	print("Auction reset. Init JSON as follows:");
 	print("");
 }
 print($auction_state_json);
