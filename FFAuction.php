@@ -10,12 +10,11 @@ if (!isset($_POST['name']) ||
 }
 
 $_SESSION['name'] = $_POST['name'];
-/*
 if ($_POST['commish'] == 'yes') {
-	include 'FFAuctionCommish.php';
+	print("Yes");
+/*	include 'FFAuctionCommish.php'; */
 } else {
-	include 'FFAuctionCommish.php';
+	print("No");
+/*	include 'FFAuctionCommish.php'; */
 }
 */
-?>
-Hello?
