@@ -77,6 +77,24 @@ class AuctionState {
 		return true;
 	}
 
+	function bid($bidder, $bid, $timestamp) {
+		if ((!$this->inAuction()) ||
+			($this->auctionTimestamp() != $timestamp) ||
+			($bid < $this->highestBid())) {
+			header('HTTP/1.1 403 Forbidden');
+			exit();
+		}
+
+		$this->data['current_auction']['bids'][] = array('bidder' => $bidder, 'bid' => $bid);
+		$this->data['current_auction']['highest_bidder'] = $bidder;
+		$this->data['current_auction']['highest_bid'] = $bid;
+
+		$this->log_event('Bid',
+			array('auction_timestamp' => $timestamp,
+				  'bidder' => $bidder,
+				  'bid' => $bid));
+	}
+
 	function log_event($event_type, $event_data) {
 		$event_num = $this->advance_version();
 
