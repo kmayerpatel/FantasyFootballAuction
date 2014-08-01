@@ -44,6 +44,7 @@ class AuctionState {
 			exit();
 		}
 
+		$nominator = $this->nextToNominate();
 		$this->data['current_auction'] = array('nominator' => $nominator,
 			'nomination' => $nomination,
 			'bids' => array());
@@ -62,7 +63,7 @@ class AuctionState {
 	function timestamp() {
 		return $this->data['init_time'];
 	}
-	
+
 	function save() {
 		if (file_put_contents(state_file_location(), $this->asJSON()) === false) {
 			return false;
