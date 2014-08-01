@@ -1,24 +1,19 @@
 <?php
-$auction_state_file = 'auction_state.txt';
+require_once 'ffauction-lib.php';
 
-/* Save old auction state in back up directory */
-
-
-if (file_exists($auction_state_file)) {
+$auction_state = load_auction_state();
+if ($auction_state != null) {
 	$backup_dir = 'backups';
-	$auction_state_json = file_get_contents($auction_state_file);
-	$auction_state = json_decode($auction_state_json, true);
+	$auction_state_json = json_encode($auction_state);
 	file_put_contents($backup_dir.'/'.$auction_state['init_time'].'.txt', $auction_state_json);
 	file_put_contents($backup_dir.'/last.txt', $auction_state_json);
 }
-
-require_once 'Owners.php';
 
 $auction_state = array();
 
 $auction_state['rosters'] = array();
 $rosters = $auction_state['rosters'];
-foreach ($owners as $owner_name) {
+foreach (owners() as $owner_name) {
 	$rosters[$owner_name] = array();
 }
 $auction_state['cap'] = 100;

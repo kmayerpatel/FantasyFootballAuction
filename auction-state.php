@@ -1,6 +1,8 @@
 <?php
 session_start();
 
-$auction_state_json = file_get_contents('auction_state.txt');
+require_once 'ffauction-lib.php';
+
 header('Content-type: application/json');
-print($auction_state_json);
+print(file_get_contents(state_file_location()));
+?>
