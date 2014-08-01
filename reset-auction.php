@@ -17,6 +17,9 @@ $auction_state['cap'] = 100;
 $auction_state['current_auction'] = null;
 $auction_state['next_to_pick'] = $owners[0];
 
-file_put_contents('auction_state.txt', json_encode($auction_state));
+header('Content-type: text/plain');
+if (file_put_contents('auction_state.txt', json_encode($auction_state)) === false) {
+	print("File put contents fails.\n");
+}
+print(json_encode($auction_state));
 ?>
-Auction Reset.
