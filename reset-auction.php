@@ -7,7 +7,7 @@ $auction_state_file = 'auction_state.txt';
 if (file_exists($auction_state_file)) {
 	$backup_dir = 'backups';
 	$auction_state_json = file_get_contents($auction_state_file);
-	$auction_state = json_decode($auction_state_json);
+	$auction_state = json_decode($auction_state_json, true);
 	file_put_contents($backup_dir.'/'.$auction_state['init_time'].'.txt', $auction_state_json);
 	file_put_contents($backup_dir.'/last.txt', $auction_state_json);
 }
