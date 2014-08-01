@@ -17,6 +17,6 @@ $auction_state['cap'] = 100;
 $auction_state['current_auction'] = null;
 $auction_state['next_to_pick'] = $owners[0];
 
-file_put_contets('auction_state.txt', json_encoder($auction_state));
+file_put_contents('auction_state.txt', json_encode($auction_state));
 ?>
 Auction Reset.
