@@ -45,13 +45,19 @@ class AuctionState {
 		}
 
 		$nominator = $this->nextToNominate();
+		$auction_start = time();
 		$this->data['current_auction'] = array('nominator' => $nominator,
 			'nomination' => $nomination,
-			'bids' => array());
+			'bids' => array(array('bidder' => $nominator, 'bid' => 1)),
+			'highest_bidder' => $nominator,
+			'highest_bid' => 1,
+			'status' => 'running',
+			'timestamp' => $auction_start);
 
 		$this->log_event('AuctionStart',
 			array('nominator' => $nominator,
-				'nomination' => $nomination));
+				'nomination' => $nomination,
+				'timestamp' => $auction_start));
 	}
 
 	function advance_version() {
