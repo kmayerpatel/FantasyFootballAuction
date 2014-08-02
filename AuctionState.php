@@ -177,6 +177,32 @@ class AuctionState {
 		return true;
 	}
 
+	function sold($timestamp) {
+		if (!$this->inAuction() ||
+			$this->current_auction->getTimestamp != $timestamp) {
+			header('HTTP/1.1 403 Forbidden');
+			exit();
+		}
+
+		$transaction = new Transaction(array('owner' => $this->current_auction->highestBidder(),
+											 'player' => $this->current_auction->getNomination(),
+											 'price' => $this->current_auction->highestBid()));
+		$this->current_auction = null;
+		$this->rosters[$transaction->getOwner()]->addToRoster($transaction);
+		$this->transactions[] = $transaction;
+
+		$last_to_pick = $this->next_to_pick;
+		$owners = FFAuctionConstants::owners();
+		$this->next_to_pick = ($this->next_to_pick + 1)%count($owners);
+		while ($this->next_to_pick != $last_to_pick) {
+			if ($this->rosters[$owners[$this->next_to_pick]]->canNominate()) {
+				break;
+			}
+		}
+		$this->log_event('Transaction', $transaction->asArray());
+		return true;
+	}
+
 	function log_event($event_type, $event_data) {
 		$event_num = $this->advanceVersion();
 

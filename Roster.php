@@ -43,6 +43,10 @@ class Roster {
 		return $sum;
 	}
 
+	function canNominate() {
+		return ($this->getMaxBid() > 0) && ($this->rosterSize() < FFAuctionConstants::MAX_ROSTER_SIZE);
+	}
+
 	function getMaxBid() {
 		$min_roster_budget = FFAuctionConstants::MIN_ROSTER_SIZE - $this->rosterSize();
 		if ($min_roster_budget < 0) {

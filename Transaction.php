@@ -1,6 +1,6 @@
 <?php
 
-class Transcation {
+class Transaction {
 	private $owner;
 	private $player;
 	private $price;
