@@ -18,7 +18,7 @@ class Roster {
 	function asJSON() {
 		return json_encode($this->asArray());
 	}
-	
+
 	function asArray() {
 		$roster_json_array = array();
 		foreach($team as $transaction) {
@@ -33,6 +33,14 @@ class Roster {
 
 	function rosterSize() {
 		return count($team);
+	}
+
+	function payroll() {
+		$sum = 0;
+		foreach($team as $t) {
+			$sum += $team->getPrice();
+		}
+		return $sum;
 	}
 
 	function getMaxBid() {
