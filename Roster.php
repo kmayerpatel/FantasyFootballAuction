@@ -21,7 +21,7 @@ class Roster {
 
 	function asArray() {
 		$roster_json_array = array();
-		foreach($team as $transaction) {
+		foreach($this->team as $transaction) {
 			$roster_json_array[] = $transaction->asArray();
 		}
 		return $roster_json_array;
