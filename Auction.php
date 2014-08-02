@@ -70,6 +70,14 @@ class Auction {
 		return true;
 	}
 
+	function goingOnce() {
+		if ($this->status != 'Running') {
+			return false;
+		}
+		$this->status = 'Going once';
+		return true;
+	}
+	
 	function asArray() {
 		return array('timestamp' => $this->timestamp,
 			         'nominator' => $this->nominator,
@@ -87,6 +95,6 @@ class Auction {
 								 'bids' => array(array('bidder' => $nominator, 'bid' => 1)),
 								 'highest_bidder' => $nominator,
 								 'highest_bid' => 1,
-								 'status' => 'running'));
+								 'status' => 'Running'));
 	}
 }

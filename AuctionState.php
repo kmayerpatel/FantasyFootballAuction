@@ -155,6 +155,15 @@ class AuctionState {
 				  'bid' => $bid));
 	}
 
+	function goingOnce() {
+		if (!$this->inAuction() ||
+			!$this->current_auction->goingOnce()) {
+			return false;
+		}
+
+		$this->log_event('GoingOnce', null);
+	}
+
 	function log_event($event_type, $event_data) {
 		$event_num = $this->advanceVersion();
 
