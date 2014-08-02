@@ -143,7 +143,7 @@ class AuctionState {
 	}
 
 	function log_event($event_type, $event_data) {
-		$event_num = $this->advance_version();
+		$event_num = $this->advanceVersion();
 
 		$event = array('type' => $event_type,
 			'data' => $event_data);
