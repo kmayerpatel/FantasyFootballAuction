@@ -214,7 +214,26 @@ class AuctionState {
 		$this->log_event('CancelAuction', null);
 		return true;
 	}
-	
+
+	function undoLastTransaction($owner, $player_name) {
+
+		$last = end($this->transactions);
+
+		if ($this->inAuction() ||
+			count($this->transactions) < 1 ||
+			$last->getOwner() != $owner ||
+			$last->getPlayer()['name'] != $player_name) {
+			header('HTTP/1.1 403 Forbidden');
+			exit();			
+		}
+
+		pop($this->transactions);
+		/* If last transaction, should be last on owner's roster as well. */
+		$this->rosters[$owner]->removeLastFromRoster();
+
+		return true;
+	}
+
 	function log_event($event_type, $event_data) {
 		$event_num = $this->advanceVersion();
 

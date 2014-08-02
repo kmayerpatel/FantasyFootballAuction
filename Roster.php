@@ -31,6 +31,10 @@ class Roster {
 		$this->team[] = $transaction;
 	}
 
+	function removeLastFromRoster() {
+		pop($this->team);
+	}
+
 	function rosterSize() {
 		return count($this->team);
 	}
