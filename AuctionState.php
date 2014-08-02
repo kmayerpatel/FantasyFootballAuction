@@ -165,6 +165,16 @@ class AuctionState {
 		return true;
 	}
 
+	function goingTwice() {
+		if (!$this->inAuction() ||
+			!$this->current_auction->goingTwice()) {
+			return false;
+		}
+
+		$this->log_event('GoingTwice', null);
+		return true;
+	}
+
 	function log_event($event_type, $event_data) {
 		$event_num = $this->advanceVersion();
 

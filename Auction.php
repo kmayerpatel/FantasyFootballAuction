@@ -79,6 +79,14 @@ class Auction {
 		return true;
 	}
 
+	function goingTwice() {
+		if ($this->status != 'Going once') {
+			return false;
+		}
+		$this->status = 'Going twice';
+		return true;
+	}
+
 	function asArray() {
 		return array('timestamp' => $this->timestamp,
 			         'nominator' => $this->nominator,
