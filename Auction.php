@@ -73,7 +73,7 @@ class Auction {
 
 	function goingOnce($timestamp) {
 		if (($this->timestamp != $timestamp) ||
-			($this->status != 'Running') {
+			($this->status != 'Running')) {
 			return false;
 		}
 		$this->status = 'Going once';
