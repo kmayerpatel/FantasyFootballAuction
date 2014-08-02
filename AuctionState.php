@@ -148,7 +148,7 @@ class AuctionState {
 		$event = array('type' => $event_type,
 			'data' => $event_data);
 
-		file_put_contents(state_log_file_location(), "".$event_num.":".json_encode($event)."\n", FILE_APPEND);
+		file_put_contents(FFAuctionConstants::STATE_LOG_FILE_LOCATION, "".$event_num.":".json_encode($event)."\n", FILE_APPEND);
 		$this->save();
 	}
 }
