@@ -45,7 +45,7 @@ class Auction {
 
 	function bid($bidder, $bid, $timestamp) {
 		if (($this->timestamp != $timestamp) ||
-			($bid <= $this->higest_bid)) {
+			($bid <= $this->highest_bid)) {
 			return false;
 		}
 

@@ -37,7 +37,7 @@ class Roster {
 
 	function payroll() {
 		$sum = 0;
-		foreach($team as $t) {
+		foreach($this->team as $t) {
 			$sum += $team->getPrice();
 		}
 		return $sum;
