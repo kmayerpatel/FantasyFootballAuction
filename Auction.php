@@ -43,7 +43,7 @@ class Auction {
 		return $this->nomination;
 	}
 
-	fuction bid($bidder, $bid, $timestamp) {
+	function bid($bidder, $bid, $timestamp) {
 		if (($this->timestamp != $timestamp) ||
 			($bid <= $this->higest_bid)) {
 			return false;
