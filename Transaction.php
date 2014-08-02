@@ -11,10 +11,14 @@ class Transcation {
 		$this->price = $from_json['price'];
 	}
 
+	function asArray() {
+		return array('owner' => $this->owner,
+					 'player' => $this->player,
+					 'price' => $this->price);
+	}
+
 	function asJSON() {
-		return json_encode(array('owner' => $this->owner,
-								 'player' => $this->player,
-								 'price' => $this->price));
+		return json_encode($this->asArray());
 	}
 
 	function getOwner() {

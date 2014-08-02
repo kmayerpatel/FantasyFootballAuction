@@ -55,6 +55,16 @@ class Auction {
 		return true;
 	}
 
+	function asArray() {
+		return array('timestamp' => $this->timestamp,
+			         'nominator' => $this->nominator,
+			         'nomination' => $this->nomination,
+					 'bids' => $this->bids,
+					 'highest_bidder' => $this->highest_bidder,
+					 'highest_bid' => $this->highest_bid,
+					 'status' => $this->status);
+	}
+
 	static function create($nominator, $nomination) {
 		return new Auction(array('timestamp' => time(),
 			                     'nominator' => $nominator,

@@ -57,22 +57,26 @@ class AuctionState {
 	}
 
 	function asJSON() {
+		return json_encode($this->asArray());
+	}
+
+	function asArray() {
 		$roster_array = array();
 		foreach ($this->rosters as $owner => $roster) {
-			$roster_array[$owner] = $roster->asJSON();
+			$roster_array[$owner] = $roster->asArray();
 		}
 
 		$current_auction = null;
 		if ($this->inAuction()) {
-			$current_auction = $this->current_auction->asJSON();
+			$current_auction = $this->current_auction->asArray();
 		}
 
 		$transaction_array = array();
 		foreach ($this->transactions as $t) {
-			$transaction_array[] = $t->asJSON();
+			$transaction_array[] = $t->asArray();
 		}
 
-		return json_encode(array(
+		return array(
 			'rosters' => $roster_array,
 			'cap' => $this->cap,
 			'current_auction' => $current_auction,
@@ -80,7 +84,7 @@ class AuctionState {
 			'version' => $this->version,
 			'transactions' => $transaction_array,
 			'timestamp' => $this->timestamp
-			));
+			);
 	}
 
 	function inAuction() {

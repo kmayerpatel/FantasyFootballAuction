@@ -16,11 +16,15 @@ class Roster {
 	}
 
 	function asJSON() {
-		$roster_json = array();
+		return json_encode($this->asArray());
+	}
+	
+	function asArray() {
+		$roster_json_array = array();
 		foreach($team as $transaction) {
-			$roster_json[] = $transaction->asJSON();
+			$roster_json_array[] = $transaction->asArray();
 		}
-		return json_encode($roster_json);
+		return $roster_json_array;
 	}
 
 	function addToRoster($transaction) {
