@@ -52,6 +52,7 @@ class Auction {
 		$this->bids[] = array('bidder' => $bidder, 'bid' => $bid);
 		$this->highest_bidder = $bidder;
 		$this->highest_bid = $bid;
+		$this->status = 'Running';
 		return true;
 	}
 
@@ -77,7 +78,7 @@ class Auction {
 		$this->status = 'Going once';
 		return true;
 	}
-	
+
 	function asArray() {
 		return array('timestamp' => $this->timestamp,
 			         'nominator' => $this->nominator,

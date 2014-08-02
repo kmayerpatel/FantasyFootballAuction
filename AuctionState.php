@@ -162,6 +162,7 @@ class AuctionState {
 		}
 
 		$this->log_event('GoingOnce', null);
+		return true;
 	}
 
 	function log_event($event_type, $event_data) {
