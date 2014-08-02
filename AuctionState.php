@@ -88,7 +88,7 @@ class AuctionState {
 	}
 
 	function inAuction() {
-		return ($this->current_auciton != null);
+		return ($this->current_auction != null);
 	}
 
 	function nextToNominate() {
