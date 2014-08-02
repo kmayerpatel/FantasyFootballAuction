@@ -1,6 +1,6 @@
 <?php
 
-require_once 'FFAuctionConstants.php'
+require_once 'FFAuctionConstants.php';
 require_once 'Transaction.php';
 
 class Roster {
