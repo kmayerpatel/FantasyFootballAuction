@@ -5,7 +5,7 @@ $auction_state = load_auction_state();
 if ($auction_state != null) {
 	$backup_dir = 'backups';
 	$auction_state_json = $auction_state->asJSON();
-	file_put_contents($backup_dir.'/'.$auction_state->timestamp().'.txt', $auction_state_json);
+	file_put_contents($backup_dir.'/'.$auction_state->getTimestamp().'.txt', $auction_state_json);
 	file_put_contents($backup_dir.'/last.txt', $auction_state_json);
 }
 
