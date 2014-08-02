@@ -1,7 +1,10 @@
 <?php
-require_once 'ffauction-lib.php';
 
-$auction_state = load_auction_state();
+require_once 'FFAuctionConstants.php';
+require_once 'AuctionState.php';
+
+$auction_state = AuctionState::load();
+
 if ($auction_state != null) {
 	$backup_dir = 'backups';
 	$auction_state_json = $auction_state->asJSON();

@@ -101,7 +101,6 @@ class AuctionState {
 		$nominator = $this->nextToNominate();
 		$this->current_auction = Auction::create($nominator, $nomination);
 
-
 		$this->log_event('AuctionStart', array('nominator' => $nominator,
 				                               'nomination' => $nomination,
 							   				   'timestamp' => $auction_start));
@@ -127,6 +126,7 @@ class AuctionState {
 	function bid($bidder, $bid, $timestamp) {
 
 		if (!$this->inAuction() ||
+			$bid > $this->rosters[$bidder]->getMaxBid() ||
 			$this->current_auction->bid($bidder, $bid, $timestamp) == false) {
 			header('HTTP/1.1 403 Forbidden');
 			exit();
@@ -141,7 +141,7 @@ class AuctionState {
 	function log_event($event_type, $event_data) {
 		$event_num = $this->advance_version();
 
-s		$event = array('type' => $event_type,
+		$event = array('type' => $event_type,
 			'data' => $event_data);
 
 		file_put_contents(state_log_file_location(), "".$event_num.":".json_encode($event)."\n", FILE_APPEND);
