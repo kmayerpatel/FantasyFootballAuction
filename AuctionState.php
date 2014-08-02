@@ -179,7 +179,8 @@ class AuctionState {
 
 	function sold($timestamp) {
 		if (!$this->inAuction() ||
-			$this->current_auction->getTimestamp != $timestamp) {
+			$this->current_auction->getTimestamp() != $timestamp ||
+			$this->current_auction->getStatus() != 'Going twice') {
 			header('HTTP/1.1 403 Forbidden');
 			exit();
 		}
