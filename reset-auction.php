@@ -18,7 +18,7 @@ header('Content-type: text/plain');
 if (!$auction_state->save()) {
 	print("File put contents fails.\n");
 } else {
-	file_put_contents(state_log_file_location(), "");
+	file_put_contents(FFAuctionConstants::STATE_LOG_FILE_LOCATION, "");
 	print("Auction reset. Init JSON as follows:\n");
 }
 print($auction_state->asJSON());

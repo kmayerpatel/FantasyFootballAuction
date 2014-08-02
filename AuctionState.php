@@ -26,7 +26,7 @@ class AuctionState {
 	function __construct($from_json = null) {
 		if ($from_json == null) {
 			$this->rosters = array();
-			foreach (owners() as $owner_name) {
+			foreach (FFAuctionConstants::owners() as $owner_name) {
 				$this->rosters[$owner_name] = new Roster();
 			}
 			$this->cap = 100;
@@ -88,7 +88,7 @@ class AuctionState {
 	}
 
 	function nextToNominate() {
-		$owners = owners();
+		$owners = FFAuctionConstants::owners();
 		return $owners[$this->next_to_pick];
 	}
 
