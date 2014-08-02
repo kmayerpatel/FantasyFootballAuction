@@ -204,6 +204,17 @@ class AuctionState {
 		return true;
 	}
 
+	function cancelAuction() {
+		if (!$this->inAuction()) {
+			header('HTTP/1.1 403 Forbidden');
+			exit();
+		}
+
+		$this->current_auction = null;
+		$this->log_event('CancelAuction', null);
+		return true;
+	}
+	
 	function log_event($event_type, $event_data) {
 		$event_num = $this->advanceVersion();
 
