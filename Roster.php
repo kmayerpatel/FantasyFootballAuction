@@ -7,10 +7,10 @@ class Roster {
 	private $team;
 
 	function __construct($roster_data = null) {
-		$team = array();
+		$this->team = array();
 		if ($roster_data != null) {
 			foreach($roster_data as $transaction) {
-				$team[] = new Transaction($transaction);
+				$this->team[] = new Transaction($transaction);
 			}
 		}
 	}
@@ -28,11 +28,11 @@ class Roster {
 	}
 
 	function addToRoster($transaction) {
-		$team[] = $transaction;
+		$this->team[] = $transaction;
 	}
 
 	function rosterSize() {
-		return count($team);
+		return count($this->team);
 	}
 
 	function payroll() {
