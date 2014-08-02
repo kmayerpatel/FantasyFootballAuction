@@ -55,6 +55,21 @@ class Auction {
 		return true;
 	}
 
+	function cancelBid($bidder, $bid, $timestamp) {
+		if (($timestamp != $this->timestamp)||
+			($bid != $this->highest_bid) ||
+			($bidder != $this->highest_bidder) ||
+			(count($this->bids) == 1)) {
+			return false;
+		}
+
+		array_pop($this->bids);
+		$new_highest = end($this->bids);
+		$this->highest_bidder = $new_highest['bidder'];
+		$this->highest_bid = $new_highest['bid'];
+		return true;
+	}
+
 	function asArray() {
 		return array('timestamp' => $this->timestamp,
 			         'nominator' => $this->nominator,

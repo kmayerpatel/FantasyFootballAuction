@@ -11,9 +11,15 @@ if (!isset($_REQUEST['bidder']) ||
 }
 
 $auction_state = AuctionState::load();
-$auction_state->bid($_REQUEST['bidder'],
-					intval($_REQUEST['bid']),
-					intval($_REQUEST['timestamp']));
+if (isset($_REQUEST['cancel'])) {
+	$auction_state->cancelBid($_REQUEST['bidder'],
+					           intval($_REQUEST['bid']),
+					           intval($_REQUEST['timestamp']));
+} else {
+	$auction_state->bid($_REQUEST['bidder'],
+					    intval($_REQUEST['bid']),
+					    intval($_REQUEST['timestamp']));
+}
 
 header("Content-type: application/json");
 print(json_encode(true));

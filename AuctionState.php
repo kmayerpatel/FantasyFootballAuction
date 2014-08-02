@@ -142,6 +142,19 @@ class AuctionState {
 				  'bid' => $bid));
 	}
 
+	function cancelBid($bidder, $bid, $timestamp) {
+		if (!$this->inAuction() ||
+			$this->current_auction->cancelBid($bidder, $bid, $timestamp) == false) {
+			header('HTTP/1.1 403 Forbidden');
+			exit();
+		}
+
+		$this->log_event('CancelBid',
+			array('auction_timestamp' => $timestamp,
+				  'bidder' => $bidder,
+				  'bid' => $bid));
+	}
+
 	function log_event($event_type, $event_data) {
 		$event_num = $this->advanceVersion();
 
