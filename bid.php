@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include 'ffauction-lib.php';
+require_once 'AuctionState.php';
 
 if (!isset($_REQUEST['bidder']) ||
 	!isset($_REQUEST['timestamp']) ||
@@ -10,7 +10,7 @@ if (!isset($_REQUEST['bidder']) ||
 	exit();
 }
 
-$auction_state = load_auction_state();
+$auction_state = AuctionState::load();
 $auction_state->bid($_REQUEST['bidder'],
 					intval($_REQUEST['bid']),
 					intval($_REQUEST['timestamp']));
