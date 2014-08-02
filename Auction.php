@@ -71,16 +71,18 @@ class Auction {
 		return true;
 	}
 
-	function goingOnce() {
-		if ($this->status != 'Running') {
+	function goingOnce($timestamp) {
+		if (($this->timestamp != $timestamp) ||
+			($this->status != 'Running') {
 			return false;
 		}
 		$this->status = 'Going once';
 		return true;
 	}
 
-	function goingTwice() {
-		if ($this->status != 'Going once') {
+	function goingTwice($timestamp) {
+		if (($this->timestamp != $timestamp) ||
+		    ($this->status != 'Going once')) {
 			return false;
 		}
 		$this->status = 'Going twice';

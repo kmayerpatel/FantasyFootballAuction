@@ -155,23 +155,25 @@ class AuctionState {
 				  'bid' => $bid));
 	}
 
-	function goingOnce() {
+	function goingOnce($timestamp) {
 		if (!$this->inAuction() ||
-			!$this->current_auction->goingOnce()) {
-			return false;
+			!$this->current_auction->goingOnce($timestamp)) {
+			header('HTTP/1.1 403 Forbidden');
+			exit();
 		}
 
-		$this->log_event('GoingOnce', null);
+		$this->log_event('GoingOnce', array('auction_timestamp' => $timestamp));
 		return true;
 	}
 
-	function goingTwice() {
+	function goingTwice($timestamp) {
 		if (!$this->inAuction() ||
-			!$this->current_auction->goingTwice()) {
-			return false;
+			!$this->current_auction->goingTwice($timestamp)) {
+			header('HTTP/1.1 403 Forbidden');
+			exit();
 		}
 
-		$this->log_event('GoingTwice', null);
+		$this->log_event('GoingTwice', array('auction_timestamp' => $timestamp));
 		return true;
 	}
 
