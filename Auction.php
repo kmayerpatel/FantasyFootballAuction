@@ -32,7 +32,7 @@ class Auction {
 	}
 
 	function getStatus() {
-		return $this->status();
+		return $this->status;
 	}
 
 	function getNominator() {
