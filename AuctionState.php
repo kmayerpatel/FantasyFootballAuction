@@ -121,7 +121,7 @@ class AuctionState {
 	}
 
 	function save() {
-		if (file_put_contents(FFAuctionConstants::STATE_LOG_FILE_LOCATION, $this->asJSON()) === false) {
+		if (file_put_contents(FFAuctionConstants::STATE_FILE_LOCATION, $this->asJSON()) === false) {
 			return false;
 		}
 		return true;
