@@ -107,7 +107,7 @@ class AuctionState {
 
 		$this->log_event('AuctionStart', array('nominator' => $nominator,
 				                               'nomination' => $nomination,
-							   				   'timestamp' => $auction_start));
+							   				   'timestamp' => $this->current_auction->getTimestamp()));
 	}
 
 	function advanceVersion() {
