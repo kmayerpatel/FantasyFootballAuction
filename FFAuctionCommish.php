@@ -237,7 +237,6 @@
   <script src="jquery-1.11.1.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
-  <script src="commish-main.js"></script>
   <script src="player.js"></script>
   <script src="transaction.js"></script>
   <script src="owner.js"></script>
