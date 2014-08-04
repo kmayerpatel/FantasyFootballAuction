@@ -7,7 +7,6 @@ require_once 'Transaction.php';
 
 class AuctionState {
 	private $rosters;
-	private $cap;
 	private $current_auction;
 	private $next_to_pick;
 	private $version;
@@ -24,23 +23,18 @@ class AuctionState {
 	}
 
 	function __construct($from_json = null) {
+		$this->rosters = array();
+		foreach (FFAuctionConstants::owners() as $owner_name) {
+			$this->rosters[$owner_name] = new Roster();
+		}
+
 		if ($from_json == null) {
-			$this->rosters = array();
-			foreach (FFAuctionConstants::owners() as $owner_name) {
-				$this->rosters[$owner_name] = new Roster();
-			}
-			$this->cap = 100;
 			$this->current_auction = null;
 			$this->next_to_pick = 0;
 			$this->version = 0;
 			$this->transactions = array();
 			$this->timestamp = time();
 		} else {
-			$this->rosters = array();
-			foreach($from_json['rosters'] as $owner => $roster_data) {
-				$this->rosters[$owner] = new Roster($roster_data);
-			}
-			$this->cap = $from_json['cap'];
 			if ($from_json['current_auction'] != null) {
 				$this->current_auction = new Auction($from_json['current_auction']);
 			} else {
@@ -50,7 +44,9 @@ class AuctionState {
 			$this->version = $from_json['version'];
 			$this->transactions = array();
 			foreach($from_json['transactions'] as $transaction_data) {
-				$this->transactions[] = new Transaction($transaction_data);
+				$t = new Transaction($transaction_data);
+				$this->transactions[] = $t;
+				$this->rosters[$t->getOwner()]->addToRoster($t);
 			}
 			$this->timestamp = $from_json['timestamp'];
 		}
@@ -61,11 +57,6 @@ class AuctionState {
 	}
 
 	function asArray() {
-		$roster_array = array();
-		foreach ($this->rosters as $owner => $roster) {
-			$roster_array[$owner] = $roster->asArray();
-		}
-
 		$current_auction = null;
 		if ($this->inAuction()) {
 			$current_auction = $this->current_auction->asArray();
@@ -77,8 +68,6 @@ class AuctionState {
 		}
 
 		return array(
-			'rosters' => $roster_array,
-			'cap' => $this->cap,
 			'current_auction' => $current_auction,
 			'next_to_pick' => $this->next_to_pick,
 			'version' => $this->version,
@@ -102,7 +91,9 @@ class AuctionState {
 			exit();
 		}
 
+		/* Need to do this in case nomination comes from commissioner. */
 		$nominator = $this->nextToNominate();
+
 		$this->current_auction = Auction::create($nominator, $nomination);
 
 		$this->log_event('AuctionStart', array('nominator' => $nominator,
@@ -204,14 +195,15 @@ class AuctionState {
 		return true;
 	}
 
-	function cancelAuction() {
-		if (!$this->inAuction()) {
+	function cancelAuction($timestamp) {
+		if (!$this->inAuction() ||
+			$timestamp != $this->current_auction->getTimestamp()) {
 			header('HTTP/1.1 403 Forbidden');
 			exit();
 		}
 
 		$this->current_auction = null;
-		$this->log_event('CancelAuction', null);
+		$this->log_event('CancelAuction', $timestamp);
 		return true;
 	}
 
@@ -229,7 +221,7 @@ class AuctionState {
 
 		pop($this->transactions);
 		/* If last transaction, should be last on owner's roster as well. */
-		$this->rosters[$owner]->removeLastFromRoster();
+		$this->rosters[$owner]->removeFromRoster($last);
 
 		return true;
 	}

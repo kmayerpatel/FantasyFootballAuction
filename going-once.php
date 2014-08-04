@@ -9,7 +9,7 @@ if (!isset($_REQUEST['timestamp'])) {
 }
 
 $auction_state = AuctionState::load();
-$auction_state->goingOnce($_REQUEST['timestamp']);
+$auction_state->goingOnce(intval($_REQUEST['timestamp']));
 
 header("Content-type: application/json");
 print(json_encode(true));

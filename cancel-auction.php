@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 require_once 'AuctionState.php';
@@ -9,7 +10,6 @@ if (!isset($_REQUEST['timestamp'])) {
 }
 
 $auction_state = AuctionState::load();
-$auction_state->sold(intval($_REQUEST['timestamp']));
-
+$auction_state->cancelAuction(intval($_REQUEST['timestamp']);
 header("Content-type: application/json");
 print(json_encode(true));

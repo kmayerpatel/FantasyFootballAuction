@@ -15,24 +15,20 @@ class Roster {
 		}
 	}
 
-	function asJSON() {
-		return json_encode($this->asArray());
-	}
-
-	function asArray() {
-		$roster_json_array = array();
-		foreach($this->team as $transaction) {
-			$roster_json_array[] = $transaction->asArray();
-		}
-		return $roster_json_array;
-	}
-
 	function addToRoster($transaction) {
 		$this->team[] = $transaction;
 	}
 
-	function removeLastFromRoster() {
-		pop($this->team);
+	function removeFromRoster($player) {
+		$new_team = array()
+		foreach ($team as $t) {
+			if ($t['name'] != $player['name'] ||
+				$t['position'] != $player['position'] ||
+				$t['team'] != $player['team']) {
+				$new_team[] = $t;
+			}
+		}
+		$this->team = $new_team;
 	}
 
 	function rosterSize() {
