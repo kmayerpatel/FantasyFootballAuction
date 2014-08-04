@@ -1,7 +1,6 @@
 
 var BlockUI = function(div_id) {
     this.div = $('#'+div_id);
-    this.controller = null;
    
     // Start Auction Button
     var start_btn = this.div.find('#blockStartAuction');
@@ -14,7 +13,12 @@ var BlockUI = function(div_id) {
 	if (name.length > 0) {
 	    ui.setPlayerNameErrorStatus(false);
 	    if (ui.controller != null) {
-		ui.controller.startAuction(name, team, pos);
+            $.get('nominate.php',
+                  {nominator: 'commish',
+                   name: name,
+                   position: pos,
+                   team: team
+                  });
 	    }
 	} else {
 	    ui.setPlayerNameErrorStatus(true);
