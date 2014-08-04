@@ -210,19 +210,20 @@ class AuctionState {
 	function undoLastTransaction($owner, $player_name) {
 
 		$last = end($this->transactions);
+		if ($last) {
+			$last_player = $last->getPlayer();
+			if ($this->inAuction() ||
+				count($this->transactions) < 1 ||
+				$last->getOwner() != $owner ||
+				$last_player['name'] != $player_name) {
+					header('HTTP/1.1 403 Forbidden');
+					exit();			
+			}
 
-		if ($this->inAuction() ||
-			count($this->transactions) < 1 ||
-			$last->getOwner() != $owner ||
-			($last->getPlayer())['name'] != $player_name) {
-			header('HTTP/1.1 403 Forbidden');
-			exit();			
+
+			pop($this->transactions);
+			$this->rosters[$owner]->removeFromRoster($last);
 		}
-
-		pop($this->transactions);
-		/* If last transaction, should be last on owner's roster as well. */
-		$this->rosters[$owner]->removeFromRoster($last);
-
 		return true;
 	}
 
