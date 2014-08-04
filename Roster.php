@@ -21,7 +21,7 @@ class Roster {
 
 	function removeFromRoster($player) {
 		$new_team = array()
-		foreach ($team as $t) {
+		foreach ($this->team as $t) {
 			if ($t['name'] != $player['name'] ||
 				$t['position'] != $player['position'] ||
 				$t['team'] != $player['team']) {
