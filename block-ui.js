@@ -12,14 +12,11 @@ var BlockUI = function(div_id) {
 
 	if (name.length > 0) {
 	    ui.setPlayerNameErrorStatus(false);
-	    if (ui.controller != null) {
-            $.get('nominate.php',
-                  {nominator: 'commish',
-                   name: name,
-                   position: pos,
-                   team: team
-                  });
-	    }
+        $.get('nominate.php',
+              {nominator: 'commish',
+               name: name,
+               position: pos,
+               team: team});
 	} else {
 	    ui.setPlayerNameErrorStatus(true);
 	}
