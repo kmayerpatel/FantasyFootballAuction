@@ -50,16 +50,7 @@ $(document).ready(function() {
 		auction_ui: auction_ui
 	       };
 
-    // Controller
-
-    var controller = new FFAuctionController(model);
-
     block_ui.show();
     last_transaction_ui.show();
     auction_ui.hide();
 });
-
-var FFAuctionController = function(model) {
-    this.model = model;
-};
-

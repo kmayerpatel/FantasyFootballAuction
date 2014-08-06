@@ -8,13 +8,14 @@ Bid.prototype.isLegal = function() {
     return res;
 }
 
-var Auction = function(player) {
+var Auction = function(player, timestamp) {
     this.player = player;
     this.bid_history = [];
     this.status = Auction.Status.NOT_STARTED;
     this.observers = [];
     this.updateTimerID = null;
     this.last_bid_time = null;
+    this.timestamp = timestamp;
 }
 
 Auction.Status = {};
@@ -42,53 +43,80 @@ Auction.prototype.highBid = function() {
 
 Auction.prototype.setStatus = function(status) {
     if (this.status != status) {
-	this.status = status;
-	this.notifyObservers(new AuctionEvent(Auction.EventType.STATUS_CHANGE, null));
+        this.status = status;
+        this.notifyObservers(new AuctionEvent(Auction.EventType.STATUS_CHANGE, null));
     }
 
     if (this.status == Auction.Status.UNDERWAY ||
-	this.status == Auction.Status.GOING_ONCE ||
-	this.status == Auction.Status.GOING_TWICE) {
-	if (this.updateTimerID == null) {
-	    var self = this;
-	    this.updateTimerID = setTimeout(function () {self.updateTimer()}, Auction.TIMER_INTERVAL);
-	}
-    }
+     this.status == Auction.Status.GOING_ONCE ||
+     this.status == Auction.Status.GOING_TWICE) {
+     if (this.updateTimerID == null) {
+         var self = this;
+         this.updateTimerID = setTimeout(function () {self.updateTimer()}, Auction.TIMER_INTERVAL);
+     }
+ }
 }
 
-Auction.prototype.retract = function() {
+Auction.prototype.proposeRetraction = function() {
     if (this.bid_history.length == 0) {
-	return;
-    }
-    var retracted_bid = this.bid_history.pop();
+     return;
+ }
+ var retracted_bid = this.bid_history[this.bid_history.length-1];
 
-    var rebid = null;
-    if (this.bid_history.length > 0) {
-	rebid = this.bid_history.pop();
+ $.get('bid.php', 
+    {cancel: 1,
+        bidder: retracted_bid.owner.name,
+        bid: retracted_bid.bid,
+        timestamp: this.timestamp});
+}
+
+Auction.prototype.confirmRetraction = function(bidder, bid, timestamp) {
+    if ((timestamp != this.timestamp) || (this.bid_history.length == 0)) {
+        return;
     }
 
+    var last_bid = this.bid_history[this.bid_history.length-1];
+
+    if ((bidder != last_bid.owner.name) || (bid != last_bid.bid)) {
+        return;
+    }
+
+    this.bid_history.pop();
     this.notifyObservers(new AuctionEvent(Auction.EventType.BID_RETRACTION, null));
 
-    if (rebid != null) {
-	this.bid(rebid);
+    if (this.bid_history.length > 0) {
+        var rebid = this.bid_history.pop();
+        this.confirmBid(rebid.owner, rebid.bid, this.timestamp);
     }
 }
 
-Auction.prototype.bid = function(bid) {
+Auction.prototype.proposeBid = function(bid) {
     if (!bid.isLegal() ||
-	this.status == Auction.Status.SOLD ||
-	this.status == Auction.Status.CANCELLED) {
-	return;
+     this.status == Auction.Status.SOLD ||
+     this.status == Auction.Status.CANCELLED) {
+     return;
     }
 
     var cur_high_bid = this.highBid();
     if (cur_high_bid != null &&
-	bid.amount <= cur_high_bid.amount) {
-	return;
+	   bid.amount <= cur_high_bid.amount) {
+	   return;
     }
-    
+
+    $.get("bid.php", {
+        timestamp: this.timestamp,
+        bidder: bid.owner.name,
+        bid: bid.bid});
+}
+
+Auction.prototype.confirmBid = function(bidder, amount, timestamp) {
+    if (timestamp != this.timestamp) {
+        return;
+    }
+
     this.setStatus(Auction.Status.UNDERWAY);
 
+    var bid = new Bid(bidder, amount);
     this.bid_history.push(bid);
     this.last_bid_time = new Date();
     this.notifyObservers(new AuctionEvent(Auction.EventType.BID, bid));
@@ -99,22 +127,23 @@ Auction.prototype.updateTimer = function() {
     var tdelta = this.timeSinceLastBid();
 
     if ((this.status == Auction.Status.UNDERWAY) &&
-	(tdelta > Auction.GOING_ONCE_DELAY)) {
-	this.setStatus(Auction.Status.GOING_ONCE);
+     (tdelta > Auction.GOING_ONCE_DELAY)) {
+        $.get("going-once.php", {timestamp: this.timestamp});
     } else if ((this.status == Auction.Status.GOING_ONCE) &&
-	       (tdelta > Auction.GOING_TWICE_DELAY)) {
-	this.setStatus(Auction.Status.GOING_TWICE);
+        (tdelta > Auction.GOING_TWICE_DELAY)) {
+        $.get("going-twice.php", {timestamp: this.timestamp});
     } else if ((this.status == Auction.Status.GOING_TWICE) &&
-	       (tdelta > Auction.SOLD_DELAY)) {
-	this.setStatus(Auction.Status.SOLD);
-    } else {
-	this.setStatus(this.status);
-    }
+        (tdelta > Auction.SOLD_DELAY)) {
+        $.get("sold.php", {timestamp: this.timestamp});
+    } 
+
+    /* Following necessary to schedule update timer. */
+    this.setStatus(this.status);
 }
 
 Auction.prototype.timeSinceLastBid = function() {
     if (this.last_bid_time == null) {
-	return NaN;
+        return NaN;
     }
 
     var now = new Date();
@@ -122,8 +151,6 @@ Auction.prototype.timeSinceLastBid = function() {
     return (now.getTime() - this.last_bid_time.getTime());
 }
 
-    
-    
 Auction.prototype.registerObserver = function(observer) {
     this.observers.push(observer);
 }
@@ -131,17 +158,16 @@ Auction.prototype.registerObserver = function(observer) {
 Auction.prototype.unregisterObserver = function(observer) {
     var updated_observers = [];
     for (var i=0; i<this.observers.length; i++) {
-	if (this.observers[i] != observer) {
-	    updated_observers.push(this.observers[i]);
-	}
+        if (this.observers[i] != observer) {
+            updated_observers.push(this.observers[i]);
+        }
     }
     this.observers = updated_observers;
 }
 
 Auction.prototype.notifyObservers = function(auction_event) {
-
     for (var i=0; i<this.observers.length; i++) {
-	this.observers[i].auctionUpdate(this, auction_event);
+        this.observers[i].auctionUpdate(this, auction_event);
     }
 }
 

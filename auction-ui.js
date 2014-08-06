@@ -1,29 +1,28 @@
 var AuctionUI = function(div_id, owners) {
     this.div = $('#'+div_id);
-    this.controller = null;
     this.auction = null;
 
     var cancel_btn = this.div.find('#auction-ui-cancel');
     cancel_btn.on('click', this, function(e) {
-	var ui = e.data;
-	if (ui.controller != null) {
-	    ui.controller.cancelAuction(ui.auction);
-	}
+	   var ui = e.data;
+       if (ui.auction != null) {
+            $.get("cancel-auction.php", {timestamp: ui.auction.timestamp});
+       }
     });
 
     var retract_btn = this.div.find('#auction-ui-retract');
     retract_btn.on('click', this, function(e) {
-	var ui = e.data;
-	if (ui.auction != null) {
-	    ui.auction.retract();
-	}
+	   var ui = e.data;
+	   if (ui.auction != null) {
+	       ui.auction.proposeRetraction();
+	   }
     });
 
     var bid_cntrls = this.div.find('.bid-cntrl');
     this.bid_uis = [];
 
     for (var i=0; i<owners.length; i++) {
-	this.bid_uis.push(new BidUI($(bid_cntrls[i]), owners[i], this));
+	   this.bid_uis.push(new BidUI($(bid_cntrls[i]), owners[i], this));
     }
 }
 
@@ -33,10 +32,6 @@ AuctionUI.prototype.setMinBid = function (min_bid) {
     }
 }
     
-AuctionUI.prototype.registerController = function(controller) {
-    this.controller = controller;
-}
-
 AuctionUI.prototype.clear = function() {
     this.div.find('#auction-ui-player').empty();
     this.div.find('#bid-cntrls .bid-input').val('');
@@ -47,7 +42,7 @@ AuctionUI.prototype.clear = function() {
 
 AuctionUI.prototype.setAuction = function(auction) {
     if (this.auction != null) {
-	this.auction.unregisterObserver(this);
+	   this.auction.unregisterObserver(this);
     }
 
     this.auction = auction;
@@ -90,24 +85,19 @@ AuctionUI.prototype.update_message = function() {
 
 AuctionUI.prototype.auctionUpdate = function (auction, auction_event) {
     if (auction != this.auction) {
-	return;
+	   return;
     }
 
     if (auction_event.type == Auction.EventType.STATUS_CHANGE) {
-	this.update_message();
-	if (this.auction.status == Auction.Status.SOLD) {
-	    if (this.controller != null) {
-		this.controller.auctionComplete(auction);
-	    }
-	}
+	   this.update_message();
     } else if (auction_event.type == Auction.EventType.BID) {
-	this.enter_bid(auction_event.data);
+	   this.enter_bid(auction_event.data);
     } else if (auction_event.type == Auction.EventType.BID_RETRACTION) {
-	this.div.find('#auction-ui-winning-bid').empty();
-	this.div.find('#bid-history .bid-history-row').remove();
-	for (var i=0; i<this.auction.bid_history.length; i++) {
-	    this.enter_bid(this.auction.bid_history[i]);
-	}
+	   this.div.find('#auction-ui-winning-bid').empty();
+	   this.div.find('#bid-history .bid-history-row').remove();
+	   for (var i=0; i<this.auction.bid_history.length; i++) {
+	       this.enter_bid(this.auction.bid_history[i]);
+	   }
     }
 	
 }
@@ -139,12 +129,12 @@ var BidUI = function (ui_div, owner, auction_ui) {
 
     var self = this;
     this.div.find('button').text(owner.name).on('click', function() {
-	if (self.auction_ui.auction != null) {
-	    var bid_amount = self.getBidAmount();
-	    if (!isNaN(bid_amount)) {
-		self.auction_ui.auction.bid(new Bid(self.owner, bid_amount));
-	    }
-	}
+	   if (self.auction_ui.auction != null) {
+	       var bid_amount = self.getBidAmount();
+	       if (!isNaN(bid_amount)) {
+		      self.auction_ui.auction.proposeBid(new Bid(self.owner, bid_amount));
+	       }
+	   }
     });
 }
 

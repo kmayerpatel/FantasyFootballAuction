@@ -1,30 +1,26 @@
 
 var BlockUI = function(div_id) {
     this.div = $('#'+div_id);
-   
+
     // Start Auction Button
     var start_btn = this.div.find('#blockStartAuction');
     start_btn.on('click', this, function(e) {
-	var ui = e.data;
-	var name = ui.getPlayerName().trim();
-	var team = ui.getPlayerTeam();
-	var pos = ui.getPlayerPosition();
+       var ui = e.data;
+       var name = ui.getPlayerName().trim();
+       var team = ui.getPlayerTeam();
+       var pos = ui.getPlayerPosition();
 
-	if (name.length > 0) {
-	    ui.setPlayerNameErrorStatus(false);
-        $.get('nominate.php',
+       if (name.length > 0) {
+           ui.setPlayerNameErrorStatus(false);
+           $.get('nominate.php',
               {nominator: 'commish',
-               name: name,
-               position: pos,
-               team: team});
-	} else {
-	    ui.setPlayerNameErrorStatus(true);
-	}
-    });
-}
-
-BlockUI.prototype.registerController = function(controller) {
-    this.controller = controller;
+              name: name,
+              position: pos,
+              team: team});
+       } else {
+           ui.setPlayerNameErrorStatus(true);
+       }
+   });
 }
 
 BlockUI.prototype.getPlayerName = function() {
@@ -53,10 +49,10 @@ BlockUI.prototype.setPlayerPosition = function(pos) {
 
 BlockUI.prototype.setPlayerNameErrorStatus = function(status) {
     if (status) {
-	this.div.find('#blockPlayerName').parents('.form-group').addClass('has-error');
-    } else {
-	this.div.find('#blockPlayerName').parents('.form-group').removeClass('has-error');
-    }
+       this.div.find('#blockPlayerName').parents('.form-group').addClass('has-error');
+   } else {
+       this.div.find('#blockPlayerName').parents('.form-group').removeClass('has-error');
+   }
 }
 
 BlockUI.prototype.reset = function() {

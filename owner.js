@@ -6,6 +6,7 @@ var Owner = function(name) {
 
 Owner.MAX_ROSTER_SIZE = 14;
 Owner.MIN_ROSTER_SIZE = 12;
+Owner.SALARY_CAP = 100;
 
 Owner.prototype.addToRoster = function(transaction) {
     this.roster.push(transaction);
@@ -13,16 +14,20 @@ Owner.prototype.addToRoster = function(transaction) {
 }
 
 Owner.prototype.maxBid = function() {
-    var balance = 100;
+    if (this.roster.length >= Owner.MAX_ROSTER_SIZE) {
+        return 0;
+    }
+
+    var balance = Owner.SALARY_CAP;
 
     for (var i=0; i<this.roster.length; i++) {
-	balance -= this.roster[i].price;
+	   balance -= this.roster[i].price;
     }
 
     if (Owner.MIN_ROSTER_SIZE > this.roster.length+1) {
-	return balance - (Owner.MIN_ROSTER_SIZE - this.roster.length - 1);
-    } else {
-	return balance;
+	   return balance - (Owner.MIN_ROSTER_SIZE - this.roster.length - 1);
+    } else 
+	   return balance;
     }
 }
 
@@ -43,6 +48,6 @@ Owner.prototype.registerRosterObserver = function(observer) {
 
 Owner.prototype.notifyObservers = function() {
     for (var i=0; i<this.rosterObservers.length; i++) {
-	this.rosterObservers[i].rosterChange(this);
+	   this.rosterObservers[i].rosterChange(this);
     }
 }

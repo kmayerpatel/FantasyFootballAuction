@@ -223,6 +223,7 @@ class AuctionState {
 
 			pop($this->transactions);
 			$this->rosters[$owner]->removeFromRoster($last);
+			$this->log_event('UndoTransaction', $last);
 		}
 		return true;
 	}

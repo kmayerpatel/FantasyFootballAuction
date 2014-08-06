@@ -16,18 +16,18 @@ TransactionLog.prototype.push = function(transaction) {
 
 TransactionLog.prototype.last = function(transaction) {
     if (this.log.length == 0) {
-	return null;
+        return null;
     }
     return this.log[this.log.length-1];
 }
 
 TransactionLog.prototype.pop = function() {
     if (this.log.length > 0) {
-	var last = this.log.pop();
-	this.notifyObservers();
-	return last;
+        var last = this.log.pop();
+        this.notifyObservers();
+        return last;
     } else {
-	return null;
+        return null;
     }
 }
 
@@ -37,7 +37,7 @@ TransactionLog.prototype.registerObserver = function(observer) {
 
 TransactionLog.prototype.notifyObservers = function() {
     for(var i=0; i<this.observers.length; i++) {
-	this.observers[i].transactionLogChange(this);
+        this.observers[i].transactionLogChange(this);
     }
 }
 
@@ -45,41 +45,36 @@ var LastTransactionUI = function(div_id, transaction_log) {
     this.div = $('#'+div_id);
     this.transaction_log = transaction_log;
     this.transaction_log.registerObserver(this);
-
-    this.controller = null;
     
     var undo_btn = this.div.find('#undo-transaction');
     undo_btn.on('click', this, function(e) {
-	var ui = e.data;
-	if (ui.transaction_log.last() != null) {
-	    if (ui.controller != null) {
-		ui.controller.undoLastTransaction();
-	    }
-	}
+        var ui = e.data;
+        if (ui.transaction_log.last() != null) {
+            var t = ui.transaction_log.last();
+            $.get("undo-transaction.php",
+                {owner: t.owner,
+                    player_name: t.player.name});
+        }        
     });
-}
-
-LastTransactionUI.prototype.registerController = function(controller) {
-    this.controller = controller;
 }
 
 LastTransactionUI.prototype.transactionLogChange = function (log) {
     if (log != this.transaction_log) {
-	return;
-    }
+       return;
+   }
 
-    var info_div = this.div.find('.jumbotron');
+   var info_div = this.div.find('.jumbotron');
 
-    info_div.empty();
-    var last_transaction = this.transaction_log.last();
-    
-    if (last_transaction != null) {
-	var player = last_transaction.player;
+   info_div.empty();
+   var last_transaction = this.transaction_log.last();
 
-	info_div.text(player.name + " (" + player.position + ", " + player.team + ")" +
-		      " bought by " + last_transaction.owner.name + 
-		      " for $" + last_transaction.price + ".");
-    }
+   if (last_transaction != null) {
+       var player = last_transaction.player;
+
+       info_div.text(player.name + " (" + player.position + ", " + player.team + ")" +
+        " bought by " + last_transaction.owner.name + 
+        " for $" + last_transaction.price + ".");
+   }
 }
 
 LastTransactionUI.prototype.hide = function() {
