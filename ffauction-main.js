@@ -9,6 +9,9 @@ var byeWeeks = {
     BAL: 11, DAL: 11, JAC: 11, NYJ: 11, 
     CAR: 12, PIT: 12};
 
+var auctionStatusVersion;
+var auctionStatusTimestamp;
+
 $(document).ready(function() {
 
     // Model objects
@@ -26,6 +29,8 @@ $(document).ready(function() {
 		  new Owner('Rich'),
 		  new Owner('New Guy')];
 
+    Owner.owners = owners;
+    
     var transaction_log = new TransactionLog();
 
     var model = {owners: owners,
@@ -53,4 +58,42 @@ $(document).ready(function() {
     block_ui.show();
     last_transaction_ui.show();
     auction_ui.hide();
+
+    $.get("auction-state.php", null, function (auction_status) {
+
+        if (auction_status.current_auction != null) {
+
+            var auction = new Auction(new Player (auction_status.current_auction.nomination.name,
+                                                  auction_status.current_auction.nomination.pos,
+                                                  auction_status.current_auction.nomination.team),
+                                        auction_status.current_auction.timestamp);
+            auction_ui.auction = auction;
+            for (var i=0; i<auction_status.bids.length; i++) {
+                var next_bid = auction_status.bids[i];
+                auction.confirmBid(next_bid.bidder, next_bid.bid, auction.timestamp);
+            }
+            if (auction_status.current_auction.status == "Running") {
+                current_auction.setStatus(Auction.Status.UNDERWAY);
+            } else if (auction_status.current_auction.status == "Going once") {
+                current_auction.setStatus(Auction.Status.GOING_ONCE)
+            } else if (auction_status.current_auction.status == "Going twice") {
+                current_auction.setStatus(Auction.Status.GOING_TWICE)
+            } 
+            block_ui.hide();
+            last_transaction_ui.hide();
+            auction_ui.show();
+        }
+        auctionStatusVersion = auction_status.version;
+        auctionStatusTimestamp = auction_status.timestamp;
+        for (var i=0; i<auction_status.transactions.length; i++) {
+            var t = auction_status.transactions[i];
+            var t_owner = Owner.lookup(t.owner);
+            var t_player = new Player(t.player.name, t.player.pos, t.player.team);
+            var t_price = t.price;
+            var transaction = new Transaction(t_player, t_price, t_owner);
+            transaction_log.push(transaction);
+            t_owner.addToRoster(transaction);
+        }
+
+    }, 'json');
 });

@@ -8,6 +8,15 @@ Owner.MAX_ROSTER_SIZE = 14;
 Owner.MIN_ROSTER_SIZE = 12;
 Owner.SALARY_CAP = 100;
 
+Owner.lookup = function(name) {
+    for (var i=0; i<Owner.owners; i++) {
+        if (Owner.owners[i].name == name) {
+            return Owner.owners[i];
+        }
+    }
+    return null;
+}
+
 Owner.prototype.addToRoster = function(transaction) {
     this.roster.push(transaction);
     this.notifyObservers();
