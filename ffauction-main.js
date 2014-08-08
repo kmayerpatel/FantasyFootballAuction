@@ -88,13 +88,11 @@ $(document).ready(function() {
         for (var i=0; i<auction_status.transactions.length; i++) {
             var t = auction_status.transactions[i];
             var t_owner = Owner.lookup(t.owner);
-            var t_player = new Player(t.player.name, t.player.pos, t.player.team);
+            var t_player = new Player(t.player.name, t.player.position, t.player.team);
             var t_price = t.price;
             var transaction = new Transaction(t_player, t_price, t_owner);
             transaction_log.push(transaction);
             t_owner.addToRoster(transaction);
         }
-        alert('here');
-
     }, 'json');
 });
