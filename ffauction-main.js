@@ -62,12 +62,11 @@ $(document).ready(function() {
     $.get("auction-state.php", null, function (auction_status) {
 
         if (auction_status.current_auction != null) {
-
             var auction = new Auction(new Player (auction_status.current_auction.nomination.name,
                                                   auction_status.current_auction.nomination.pos,
                                                   auction_status.current_auction.nomination.team),
                                         auction_status.current_auction.timestamp);
-            auction_ui.auction = auction;
+            auction_ui.setAuction(auction);
             for (var i=0; i<auction_status.current_auction.bids.length; i++) {
                 var next_bid = auction_status.current_auction.bids[i];
                 auction.confirmBid(next_bid.bidder, next_bid.bid, auction.timestamp);
