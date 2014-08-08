@@ -60,25 +60,37 @@ AuctionUI.prototype.setAuction = function(auction) {
 
 AuctionUI.prototype.update_message = function() {
     var message = this.div.find('#auction-ui-message');
+    var auction_control_button = this.div.find('#auction-control');
 
     switch(this.auction.status) {
     case Auction.Status.NOT_STARTED:
 	message.text("Waiting for first bid...");
+    auction_control_button.html("Going once...")
+    auction_control_button.attr("disabled", "disabled");
 	break;
     case Auction.Status.UNDERWAY:
 	message.text("Bidding underway.");
+    auction_control_button.html("Going once...")
+    auction_control_button.removeAttr("disabled");
 	break;
     case Auction.Status.GOING_ONCE:
 	message.text("Going once...");
+    auction_control_button.html("Going twice...")
+    auction_control_button.removeAttr("disabled");
 	break;
     case Auction.Status.GOING_TWICE:
 	message.text("Going twice...");
+    auction_control_button.html("Sold!")
+    auction_control_button.removeAttr("disabled");
 	break;
     case Auction.Status.SOLD:
 	message.text("SOLD!");
+    auction_control_button.html("Sold!")
+    auction_control_button.attr("disabled", "disabled");
 	break;
     case Auction.Status.CANCELLED:
 	message.text("Auction cancelled.");
+    auction_control_button.attr("disabled", "disabled");
 	break;
     }
 }
