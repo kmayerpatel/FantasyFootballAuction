@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once 'ffauction-lib.php';
+require_once 'FFAuctionConstants.php';
 
 header('Content-type: application/json');
-print(file_get_contents(state_file_location()));
+print(file_get_contents(FFAuctionConstants::STATE_FILE_LOCATION));
 ?>
