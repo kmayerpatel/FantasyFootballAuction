@@ -38,7 +38,6 @@ Owner.prototype.maxBid = function() {
     } else 
     return balance;
 }
-}
 
 Owner.prototype.removeFromRoster = function(transaction) {
     var new_roster = [];
