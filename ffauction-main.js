@@ -69,7 +69,7 @@ $(document).ready(function() {
             auction_ui.setAuction(auction);
             for (var i=0; i<auction_status.current_auction.bids.length; i++) {
                 var next_bid = auction_status.current_auction.bids[i];
-                auction.confirmBid(Owners.lookup(next_bid.bidder), next_bid.bid, auction.timestamp);
+                auction.confirmBid(Owner.lookup(next_bid.bidder), next_bid.bid, auction.timestamp);
             }
             if (auction_status.current_auction.status == "Running") {
                 auction.setStatus(Auction.Status.UNDERWAY);
