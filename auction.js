@@ -68,7 +68,7 @@ Auction.prototype.proposeRetraction = function() {
  $.get('bid.php', 
     {cancel: 1,
         bidder: retracted_bid.owner.name,
-        bid: retracted_bid.bid,
+        bid: retracted_bid.amount,
         timestamp: this.timestamp});
 }
 
