@@ -27,7 +27,7 @@ $(document).ready(function() {
 		  new Owner('Vince'),
 		  new Owner("O'Malley"),
 		  new Owner('Rich'),
-		  new Owner('New Guy')];
+		  new Owner('Terrence')];
 
     Owner.owners = owners;
     

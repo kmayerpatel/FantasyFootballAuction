@@ -102,6 +102,9 @@
 	<div id="auction-ui-message" class="h3">
 	  Going once...
 	</div>
+	<div>
+		<button type="button" class="btn btn-default" id="auction-control">Going once...</button>
+	</div>	
       </div>
     </div>	
   </div>
