@@ -108,7 +108,7 @@ Auction.prototype.proposeBid = function(bid) {
     $.get("bid.php", {
         timestamp: this.timestamp,
         bidder: bid.owner.name,
-        bid: bid.bid});
+        bid: bid.amount});
 }
 
 Auction.prototype.confirmBid = function(bidder, amount, timestamp) {
