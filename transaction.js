@@ -52,7 +52,7 @@ var LastTransactionUI = function(div_id, transaction_log) {
         if (ui.transaction_log.last() != null) {
             var t = ui.transaction_log.last();
             $.get("undo-transaction.php",
-                {owner: t.owner,
+                {owner: t.owner.name,
                     player_name: t.player.name});
         }        
     });
