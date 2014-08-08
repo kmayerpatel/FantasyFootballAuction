@@ -68,16 +68,16 @@ $(document).ready(function() {
                                                   auction_status.current_auction.nomination.team),
                                         auction_status.current_auction.timestamp);
             auction_ui.auction = auction;
-            for (var i=0; i<auction_status.bids.length; i++) {
-                var next_bid = auction_status.bids[i];
+            for (var i=0; i<auction_status.current_auction.bids.length; i++) {
+                var next_bid = auction_status.current_auction.bids[i];
                 auction.confirmBid(next_bid.bidder, next_bid.bid, auction.timestamp);
             }
             if (auction_status.current_auction.status == "Running") {
-                current_auction.setStatus(Auction.Status.UNDERWAY);
+                auction.setStatus(Auction.Status.UNDERWAY);
             } else if (auction_status.current_auction.status == "Going once") {
-                current_auction.setStatus(Auction.Status.GOING_ONCE)
+                auction.setStatus(Auction.Status.GOING_ONCE)
             } else if (auction_status.current_auction.status == "Going twice") {
-                current_auction.setStatus(Auction.Status.GOING_TWICE)
+                auction.setStatus(Auction.Status.GOING_TWICE)
             } 
             block_ui.hide();
             last_transaction_ui.hide();
