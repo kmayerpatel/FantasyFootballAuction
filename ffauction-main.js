@@ -94,6 +94,7 @@ $(document).ready(function() {
             transaction_log.push(transaction);
             t_owner.addToRoster(transaction);
         }
+        alert('here');
 
     }, 'json');
 });
