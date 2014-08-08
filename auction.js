@@ -50,10 +50,12 @@ Auction.prototype.setStatus = function(status) {
     if (this.status == Auction.Status.UNDERWAY ||
      this.status == Auction.Status.GOING_ONCE ||
      this.status == Auction.Status.GOING_TWICE) {
+        /*
      if (this.updateTimerID == null) {
          var self = this;
          this.updateTimerID = setTimeout(function () {self.updateTimer()}, Auction.TIMER_INTERVAL);
      }
+     */
  }
 }
 
