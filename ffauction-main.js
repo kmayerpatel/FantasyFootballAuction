@@ -59,7 +59,7 @@ $(document).ready(function() {
     last_transaction_ui.show();
     auction_ui.hide();
 
-    $.get("auction-state.php", null, function (auction_status) {
+    var handleStateUpdate = function (auction_status) {
 
         if (auction_status.current_auction != null) {
             var auction = new Auction(new Player (auction_status.current_auction.nomination.name,
@@ -92,6 +92,12 @@ $(document).ready(function() {
             var transaction = new Transaction(t_player, t_price, t_owner);
             transaction_log.push(transaction);
             t_owner.addToRoster(transaction);
-        }
-    }, 'json');
+        }        
+
+        setTimeout(function () {
+            $.get("auction-state.php", null, handleStateUpdate, 'json');
+        }, 200);
+    }
+
+    $.get("auction-state.php", null, handleStateUpdate, 'json');
 });
