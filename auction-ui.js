@@ -26,7 +26,7 @@ var AuctionUI = function(div_id, owners) {
     }
 
     this.div.find('#auction-control').click(function (e) {
-        alert(this.text());
+        alert($(this).text());
     });
 }
 
