@@ -23,7 +23,8 @@ class Roster {
 		$this->team[] = $transaction;
 	}
 
-	function removeFromRoster($player) {
+	function removeFromRoster($transaction) {
+		$player = $transaction->getPlayer();
 		$new_team = array();
 		foreach ($this->team as $t) {
 			$p = $t->getPlayer();
