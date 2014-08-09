@@ -61,6 +61,23 @@ $(document).ready(function() {
 
     var handleStateUpdate = function (auction_status) {
 
+        auctionStatusVersion = auction_status.version;
+        auctionStatusTimestamp = auction_status.timestamp;
+
+        for (var i=0; i<Owner.owners.length; i++) {
+            Owner.owners[i].clear();
+        }
+            
+        for (var i=0; i<auction_status.transactions.length; i++) {
+            var t = auction_status.transactions[i];
+            var t_owner = Owner.lookup(t.owner);
+            var t_player = new Player(t.player.name, t.player.position, t.player.team);
+            var t_price = t.price;
+            var transaction = new Transaction(t_player, t_price, t_owner);
+            transaction_log.push(transaction);
+            t_owner.addToRoster(transaction);
+        }        
+
         if (auction_status.current_auction != null) {
             var auction = new Auction(new Player (auction_status.current_auction.nomination.name,
                                                   auction_status.current_auction.nomination.position,
@@ -82,24 +99,12 @@ $(document).ready(function() {
             block_ui.hide();
             last_transaction_ui.hide();
             auction_ui.show();
+        } else {
+            block_ui.show();
+            last_transaction_ui.show();
+            auction_ui.hide();
         }
-        auctionStatusVersion = auction_status.version;
-        auctionStatusTimestamp = auction_status.timestamp;
-
-        for (var i=0; i<Owner.owners.length; i++) {
-            Owner.owners[i].clear();
-        }
-            
-        for (var i=0; i<auction_status.transactions.length; i++) {
-            var t = auction_status.transactions[i];
-            var t_owner = Owner.lookup(t.owner);
-            var t_player = new Player(t.player.name, t.player.position, t.player.team);
-            var t_price = t.price;
-            var transaction = new Transaction(t_player, t_price, t_owner);
-            transaction_log.push(transaction);
-            t_owner.addToRoster(transaction);
-        }        
-
+        
         setTimeout(function () {
             $.get("auction-state.php", null, handleStateUpdate, 'json');
         }, 200);
