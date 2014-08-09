@@ -24,6 +24,10 @@ var AuctionUI = function(div_id, owners) {
     for (var i=0; i<owners.length; i++) {
 	   this.bid_uis.push(new BidUI($(bid_cntrls[i]), owners[i], this));
     }
+
+    this.div.find('#auction-control').click(function (e) {
+        alert(this.text());
+    });
 }
 
 AuctionUI.prototype.setMinBid = function (min_bid) {
