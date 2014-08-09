@@ -19,6 +19,7 @@ Owner.lookup = function(name) {
 
 Owner.prototype.clear = function () {
     this.roster = [];
+    this.notifyObservers();
 }
 
 Owner.prototype.addToRoster = function(transaction) {
