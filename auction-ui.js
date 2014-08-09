@@ -25,8 +25,16 @@ var AuctionUI = function(div_id, owners) {
 	   this.bid_uis.push(new BidUI($(bid_cntrls[i]), owners[i], this));
     }
 
-    this.div.find('#auction-control').click(function (e) {
-        alert($(this).text());
+    var auction_control_button = this.div.find('#auction-control');
+
+    var this_auction_ui = this;
+    auction_control_button.click(function (e) {
+        var action = $(this).data('action');
+        var ts = this_auction_ui.auction.timestamp;
+
+        $.get(action, {
+            timestamp: ts
+        });
     });
 }
 
@@ -71,26 +79,31 @@ AuctionUI.prototype.update_message = function() {
 	message.text("Waiting for first bid...");
     auction_control_button.html("Going once...")
     auction_control_button.attr("disabled", "disabled");
+    auction_control_button.data('action', 'going-once.php');
 	break;
     case Auction.Status.UNDERWAY:
 	message.text("Bidding underway.");
     auction_control_button.html("Going once...")
     auction_control_button.removeAttr("disabled");
+    auction_control_button.data('action', 'going-once.php');
 	break;
     case Auction.Status.GOING_ONCE:
 	message.text("Going once...");
     auction_control_button.html("Going twice...")
     auction_control_button.removeAttr("disabled");
+    auction_control_button.data('action', 'going-once.php');
 	break;
     case Auction.Status.GOING_TWICE:
 	message.text("Going twice...");
     auction_control_button.html("Sold!")
     auction_control_button.removeAttr("disabled");
+    auction_control_button.data('action', 'going-twice.php');
 	break;
     case Auction.Status.SOLD:
 	message.text("SOLD!");
     auction_control_button.html("Sold!")
     auction_control_button.attr("disabled", "disabled");
+    auction_control_button.data('action', 'sold.php');
 	break;
     case Auction.Status.CANCELLED:
 	message.text("Auction cancelled.");
