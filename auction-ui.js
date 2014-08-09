@@ -91,13 +91,13 @@ AuctionUI.prototype.update_message = function() {
 	message.text("Going once...");
     auction_control_button.html("Going twice...")
     auction_control_button.removeAttr("disabled");
-    auction_control_button.data('action', 'going-once.php');
+    auction_control_button.data('action', 'going-twice.php');
 	break;
     case Auction.Status.GOING_TWICE:
 	message.text("Going twice...");
     auction_control_button.html("Sold!")
     auction_control_button.removeAttr("disabled");
-    auction_control_button.data('action', 'going-twice.php');
+    auction_control_button.data('action', 'sold.php');
 	break;
     case Auction.Status.SOLD:
 	message.text("SOLD!");
