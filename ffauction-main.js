@@ -67,6 +67,7 @@ $(document).ready(function() {
         for (var i=0; i<Owner.owners.length; i++) {
             Owner.owners[i].clear();
         }
+        last_transaction_ui.clear();
             
         for (var i=0; i<auction_status.transactions.length; i++) {
             var t = auction_status.transactions[i];
@@ -104,7 +105,7 @@ $(document).ready(function() {
             last_transaction_ui.show();
             auction_ui.hide();
         }
-        
+
         setTimeout(function () {
             $.get("auction-state.php", null, handleStateUpdate, 'json');
         }, 200);

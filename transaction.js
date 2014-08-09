@@ -84,3 +84,7 @@ LastTransactionUI.prototype.hide = function() {
 LastTransactionUI.prototype.show = function() {
     this.div.css('display', '');
 }
+
+LastTransactionUI.prototype.clear = function () {
+    this.div.find('.jumbotron').empty();
+}
