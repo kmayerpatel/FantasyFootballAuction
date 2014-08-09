@@ -15,6 +15,10 @@ class Roster {
 		}
 	}
 
+	function clear() {
+		$this->team = array();
+	}
+	
 	function addToRoster($transaction) {
 		$this->team[] = $transaction;
 	}
