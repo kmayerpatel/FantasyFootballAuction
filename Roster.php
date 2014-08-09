@@ -18,7 +18,7 @@ class Roster {
 	function clear() {
 		$this->team = array();
 	}
-	
+
 	function addToRoster($transaction) {
 		$this->team[] = $transaction;
 	}
@@ -26,9 +26,10 @@ class Roster {
 	function removeFromRoster($player) {
 		$new_team = array();
 		foreach ($this->team as $t) {
-			if ($t['name'] != $player['name'] ||
-				$t['position'] != $player['position'] ||
-				$t['team'] != $player['team']) {
+			$p = $t->getPlayer();
+			if ($p['name'] != $player['name'] ||
+				$p['position'] != $player['position'] ||
+				$p['team'] != $player['team']) {
 				$new_team[] = $t;
 			}
 		}
