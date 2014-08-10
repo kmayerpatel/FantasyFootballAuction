@@ -140,8 +140,9 @@ AuctionUI.prototype.enter_bid = function(bid) {
     var bid_table = this.div.find('#bid-history');
 
     bid_table.find('tbody').append(bid_history_row);
-    alert(bid_table.prop('scrollHeight'));
-    $('#bid-history-div').css({scrollTop: bid_table.prop('scrollHeight')});
+//    $('#bid-history-div').css({scrollTop: bid_table.prop('scrollHeight')});
+    $('#bid-history-div').scrollTop(bid_table.prop('scrollHeight'));
+
 }
 
 AuctionUI.prototype.hide = function() {
