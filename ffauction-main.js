@@ -9,58 +9,59 @@ var byeWeeks = {
     BAL: 11, DAL: 11, JAC: 11, NYJ: 11, 
     CAR: 12, PIT: 12};
 
-var auctionStatusVersion;
-var auctionStatusTimestamp;
+    var auctionStatusVersion;
+    var auctionStatusTimestamp;
 
-$(document).ready(function() {
+    $(document).ready(function() {
 
     // Model objects
 
     var owners = [new Owner('Ketan'),
-		  new Owner('Jamo'),
-		  new Owner('Forbes'),
-		  new Owner('CG'),
-		  new Owner('Z'),
-		  new Owner('Elder'),
-		  new Owner('Los'),
-		  new Owner('Singer'),
-		  new Owner('Vince'),
-		  new Owner("O'Malley"),
-		  new Owner('Rich'),
-		  new Owner('Terrence')];
+    new Owner('Jamo'),
+    new Owner('Forbes'),
+    new Owner('CG'),
+    new Owner('Z'),
+    new Owner('Elder'),
+    new Owner('Los'),
+    new Owner('Singer'),
+    new Owner('Vince'),
+    new Owner("O'Malley"),
+    new Owner('Rich'),
+    new Owner('Terrence')];
 
     Owner.owners = owners;
     
     var transaction_log = new TransactionLog();
 
     var model = {owners: owners,
-		 transaction_log: transaction_log
-		};
+     transaction_log: transaction_log
+ };
 
     // View objects
 
     var block_ui = new BlockUI('block-ui');
     var auction_ui = new AuctionUI('auction-ui', owners);
     var last_transaction_ui = new LastTransactionUI('last-transaction-ui',
-						    transaction_log);
+      transaction_log);
     var roster_uis = {};
     for (var i=0; i<owners.length; i++) {
-	var next_roster_ui = new RosterUI(owners[i], 'rosters');
-	roster_uis[owners[i].name] = next_roster_ui;
-    }
+       var next_roster_ui = new RosterUI(owners[i], 'rosters');
+       roster_uis[owners[i].name] = next_roster_ui;
+   }
 
-    var view = {block_ui: block_ui,
-		last_transaction_ui: last_transaction_ui,
-		roster_uis: roster_uis,
-		auction_ui: auction_ui
-	       };
+   var view = {block_ui: block_ui,
+      last_transaction_ui: last_transaction_ui,
+      roster_uis: roster_uis,
+      auction_ui: auction_ui
+  };
 
-    block_ui.show();
-    last_transaction_ui.show();
-    auction_ui.hide();
+  block_ui.show();
+  last_transaction_ui.show();
+  auction_ui.hide();
 
-    var handleStateUpdate = function (auction_status) {
+  var handleStateUpdate = function (auction_status) {
 
+    if (auction_status) {
         auctionStatusVersion = auction_status.version;
         auctionStatusTimestamp = auction_status.timestamp;
 
@@ -81,9 +82,9 @@ $(document).ready(function() {
 
         if (auction_status.current_auction != null) {
             var auction = new Auction(new Player (auction_status.current_auction.nomination.name,
-                                                  auction_status.current_auction.nomination.position,
-                                                  auction_status.current_auction.nomination.team),
-                                        auction_status.current_auction.timestamp);
+              auction_status.current_auction.nomination.position,
+              auction_status.current_auction.nomination.team),
+            auction_status.current_auction.timestamp);
             auction_ui.setAuction(auction);
 
             for (var i=0; i<auction_status.current_auction.bids.length; i++) {
@@ -105,11 +106,12 @@ $(document).ready(function() {
             last_transaction_ui.show();
             auction_ui.hide();
         }
-
-        setTimeout(function () {
-            $.get("auction-state.php", null, handleStateUpdate, 'json');
-        }, 200);
     }
 
-    $.get("auction-state.php", null, handleStateUpdate, 'json');
+    setTimeout(function () {
+        $.get("auction-state.php", {version: auctionStatusVersion}, handleStateUpdate, 'json');
+    }, 200);
+}
+
+$.get("auction-state.php", null, handleStateUpdate, 'json');
 });

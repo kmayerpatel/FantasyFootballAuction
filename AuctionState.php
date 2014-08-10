@@ -107,6 +107,10 @@ class AuctionState {
 		return $current_version;
 	}
 
+	function getVersion() {
+		return $this->version;
+	}
+	
 	function getTimestamp() {
 		return $this->timestamp;
 	}
