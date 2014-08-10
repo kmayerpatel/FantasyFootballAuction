@@ -68,7 +68,7 @@ $(document).ready(function() {
             Owner.owners[i].clear();
         }
         last_transaction_ui.clear();
-            
+
         for (var i=0; i<auction_status.transactions.length; i++) {
             var t = auction_status.transactions[i];
             var t_owner = Owner.lookup(t.owner);
@@ -100,6 +100,8 @@ $(document).ready(function() {
             block_ui.hide();
             last_transaction_ui.hide();
             auction_ui.show();
+            $('#bid-history-div').css({scrollTop: bid_table.prop('scrollHeight')});
+
         } else {
             block_ui.show();
             last_transaction_ui.show();
