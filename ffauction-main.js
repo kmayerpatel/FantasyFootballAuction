@@ -100,7 +100,7 @@ $(document).ready(function() {
             block_ui.hide();
             last_transaction_ui.hide();
             auction_ui.show();
-            $('#bid-history-div').css({scrollTop: bid_table.prop('scrollHeight')});
+            $('#bid-history-div').css({scrollTop:  $('#bid-history').prop('scrollHeight')});
 
         } else {
             block_ui.show();
