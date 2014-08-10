@@ -222,6 +222,12 @@ class AuctionState {
 
 			array_pop($this->transactions);
 			$this->rosters[$owner]->removeFromRoster($last);
+			$owners = FFAuctionConstants::owners();
+			$num_owners = count($owners);
+			$this->next_to_pick = ($this->next_to_pick-1+$num_owners)%$num_owners;
+			while (!$this->rosters[$owners[$this->next_to_pick]]->canNominate()) {
+				$this->next_to_pick = ($this->next_to_pick-1+$num_owners)%$num_owners;
+			}
 			$this->log_event('UndoTransaction', $last);
 		}
 		return true;
