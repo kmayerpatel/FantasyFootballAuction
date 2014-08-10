@@ -110,7 +110,7 @@ var byeWeeks = {
 
     setTimeout(function () {
         $.get("auction-state.php", {version: auctionStatusVersion}, handleStateUpdate, 'json');
-    }, 200);
+    }, 100);
 }
 
 $.get("auction-state.php", null, handleStateUpdate, 'json');
