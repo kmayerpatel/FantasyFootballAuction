@@ -98,6 +98,7 @@ var byeWeeks = {
             } else if (auction_status.current_auction.status == "Going twice") {
                 auction.setStatus(Auction.Status.GOING_TWICE)
             } 
+            block_ui.reset();
             block_ui.hide();
             last_transaction_ui.hide();
             auction_ui.show();
