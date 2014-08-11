@@ -14,12 +14,11 @@ if ($auction_state != null) {
 
 $auction_state = new AuctionState(null);
 
-header('Content-type: text/plain');
 if (!$auction_state->save()) {
+	header('Content-type: text/html');
 	print("File put contents fails.\n");
 } else {
 	file_put_contents(FFAuctionConstants::STATE_LOG_FILE_LOCATION, "");
-	print("Auction reset. Init JSON as follows:\n");
+	header("Location: http://wwwx.cs.unc.edu/~kmp/FantasyFootballAuction/FFAuctionCommish.php");
 }
-print($auction_state->asJSON());
 ?>
